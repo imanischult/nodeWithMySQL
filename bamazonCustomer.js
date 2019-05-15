@@ -37,11 +37,23 @@ function afterConnection() {
             Price: $${inventory.price}
             `);
 
+
+            // Prompt users with two messages.
+            // The first should ask them the ID of the product they would like to buy.
+            // The second message should ask how many units of the product they would like to buy.
             inquirer.prompt([
                 {
-
+                    name: "productID",
+                    message: "What is the ID of the product you would like to purchase?"
+                }, {
+                    name: "units",
+                    message: "How many would you like?"
                 }
-            ])
+            ]).then(function(answers) {
+                let unitCheck = parseInt(answers.units);
+
+                console.log(unitCheck);
+            })
         }
     });
 };
