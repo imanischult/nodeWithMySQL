@@ -11,11 +11,21 @@ price INTEGER(10),
 stock_quantity VARCHAR(10)
 );
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("iPhone Case","Electronics",49.99,27);
-
 
 -- Populate this database with around 10 different products. (i.e. Insert "mock" data rows into this database and table).
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("iPhone Case","Accessories",49.99,27),
+    ("iPhone","Electronics",499.98,27),
+    ("Comforter Set","Home",129.00,6),
+    ("Bathroom Rug","Home",12.00,8),
+    ("Colorful Pen Set","Office",7.49,11),
+    ("Samsung Note","Electronics",627.39,22),
+    ("Calendar","Office",22.81,18),
+    ("iPhone Case","Electronics",49.99,27),
+    ("Computer Case","Accessories",10.01,13),
+    ("iPhone Case","Electronics",49.99,27)
+)
 
 
 -- Then create a Node application called bamazonCustomer.js. Running this application will first display all of the items available for sale. Include the ids, names, and prices of products for sale.
