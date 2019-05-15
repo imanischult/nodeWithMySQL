@@ -24,6 +24,33 @@ connection.connect(function(err){
     connection.end();
 });
 
+const orderPrompt = function() {
+    // variable we will use to count how many times questiion is asked
+    let count = 0;
+
+    // array in which we store orders
+    let orderArray = [];
+
+    if (count < 1) {
+
+        inquirer.prompt([
+            {
+                name: "productID",
+                message: "What is the ID of the product you would like to purchase?"
+            }, {
+                name: "units",
+                message: "How many would you like?"
+            }
+        ]).then(function(answers) {
+            let unitCheck = parseInt(answers.units);
+
+            console.log(unitCheck);
+            count++;
+        });
+    };
+
+};
+ 
 function afterConnection() {
     connection.query("SELECT * FROM products", function(err,res){
         if (err) throw err;
@@ -37,23 +64,7 @@ function afterConnection() {
             Price: $${inventory.price}
             `);
 
-
-            // Prompt users with two messages.
-            // The first should ask them the ID of the product they would like to buy.
-            // The second message should ask how many units of the product they would like to buy.
-            inquirer.prompt([
-                {
-                    name: "productID",
-                    message: "What is the ID of the product you would like to purchase?"
-                }, {
-                    name: "units",
-                    message: "How many would you like?"
-                }
-            ]).then(function(answers) {
-                let unitCheck = parseInt(answers.units);
-
-                console.log(unitCheck);
-            })
+            orderPrompt();
         }
     });
 };
