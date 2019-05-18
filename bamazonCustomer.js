@@ -21,7 +21,6 @@ connection.connect(function(err){
     if (err) throw err;
     console.log("connected as ID " + connection.threadId);
     afterConnection();
-    orderPrompt();
     connection.end();
 });
 
@@ -58,18 +57,27 @@ function afterConnection() {
     connection.query("SELECT * FROM products", function(err,res){
         if (err) throw err;
 
-        let inventory = {};
+        let inventory = [];
 
         for (let i = 0; i < res.length; i++) {
 
-            inventory.push({
+            let stockCount = {
             itemID:res[i].item_id,
-            Product:res[i].product_name,
-            Price:res[i].price
-            });
+            product:res[i].product_name,
+            price:res[i].price
+            };
+
+            inventory.push(stockCount)
         }
 
-        console.log(inventory)
+        for (let i = 0; i < inventory.length; i++) {
+        console.log(`
+        Item ID: ${inventory[i].itemID}
+        Product: ${inventory[i].product}
+        Price: $${inventory[i].price}\n`)
+        }
+
+        orderPrompt();
     });
 };
 
