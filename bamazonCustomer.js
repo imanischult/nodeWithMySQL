@@ -21,6 +21,7 @@ connection.connect(function(err){
     if (err) throw err;
     console.log("connected as ID " + connection.threadId);
     afterConnection();
+    orderPrompt();
     connection.end();
 });
 
@@ -43,11 +44,13 @@ const orderPrompt = function() {
             }
         ]).then(function(answers) {
             let unitCheck = parseInt(answers.units);
+            let inventCheck = 
 
-            console.log(unitCheck);
             count++;
         });
-    };
+    } else {
+        console.log('Thanks for your order!')
+    }
 
 };
  
@@ -55,17 +58,18 @@ function afterConnection() {
     connection.query("SELECT * FROM products", function(err,res){
         if (err) throw err;
 
+        let inventory = {};
+
         for (let i = 0; i < res.length; i++) {
 
-            let inventory = res[i]
-            console.log(`
-            Item ID: ${inventory.item_id}
-            Product: ${inventory.product_name}
-            Price: $${inventory.price}
-            `);
-
-            orderPrompt();
+            inventory.push({
+            itemID:res[i].item_id,
+            Product:res[i].product_name,
+            Price:res[i].price
+            });
         }
+
+        console.log(inventory)
     });
 };
 
