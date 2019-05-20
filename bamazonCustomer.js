@@ -22,7 +22,6 @@ connection.connect(function(err){
     if (err) throw err;
     console.log("connected as ID " + connection.threadId);
     afterConnection();
-    connection.end();
 });
  
 function afterConnection() {
@@ -81,16 +80,31 @@ function afterConnection() {
                     console.log (`Your order cannot be completed. We only have ${unitsCheck} of the ${inventory[productID - 1].product} product left`)
                 } else if (unitsCheck >= units) {
                     orderArray.push(inventory[productID - 1].price);
-                    unitsCheckk--;
+                    unitsCheck--;
                     newInvent.push(unitsCheck)
-                    console.log(`Thank you for order. It is now being processed. You spent $${orderArray[0]}.`)
+                    console.log(`Thank you for order. It is now being processed. You spent $${inventory[productID - 1].price*units}.`);
+
+                    let newUnits = units - 1;
+                    connection.query(
+                        "UPDATE8 products SET ? WHERE ?",
+                        [
+                            {
+                                stock_quantity: newUnits
+                            },
+                            {
+                                item_id: productID
+                            }
+                        ],
+                        function(err, res) {
+                           if (err) throw err;
+
+                           console.log("New inventory count for item number " + inventory[productID-1].itemID + " is " + res.affectedRows)
+                           console.log(newUnits)
+                        }
+                    )
+
                 };
-
-                connection.query(
-                    "UPDATE products SET ? WHERE ?",
-
-                )
-                
+                connection.end();
             });
         };
         
@@ -100,6 +114,7 @@ function afterConnection() {
         newInvent = [];
     });
 };
+
 
 // Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
 
