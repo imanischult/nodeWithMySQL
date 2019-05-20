@@ -23,35 +23,6 @@ connection.connect(function(err){
     afterConnection();
     connection.end();
 });
-
-const orderPrompt = function() {
-    // variable we will use to count how many times questiion is asked
-    let count = 0;
-
-    // array in which we store orders
-    let orderArray = [];
-
-    if (count < 1) {
-
-        inquirer.prompt([
-            {
-                name: "productID",
-                message: "What is the ID of the product you would like to purchase?"
-            }, {
-                name: "units",
-                message: "How many would you like?"
-            }
-        ]).then(function(answers) {
-            let unitCheck = parseInt(answers.units);
-        
-            count++;
-            return unitCheck
-        });
-    } else {
-        console.log('Thanks for your order!')
-    }
-
-};
  
 function afterConnection() {
     connection.query("SELECT * FROM products", function(err,res){
@@ -85,8 +56,11 @@ function afterConnection() {
 
         // array in which we store orders
         let orderArray = [];
+        let newInvent = [];
 
-        if (count < 1) {
+        if (count > 1) {
+            console.log('Thanks for your order!')
+        } else if (count < 1) {
 
             inquirer.prompt([
                 {
@@ -103,21 +77,18 @@ function afterConnection() {
                 let unitsCheck = inventory[productID - 1].stock;
 
                 if (unitsCheck < units) {
-                    console.log (`Your order cannot be completed. We only have ${unitsCheck} of ${inventory[producID - 1].product} left`)
+                    console.log (`Your order cannot be completed. We only have ${unitsCheck} of the ${inventory[productID - 1].product} product left`)
                 } else if (unitsCheck > units) {
                     orderArray.push(inventory[productID - 1].price);
-                    
-                }
-
-                console.log(unitsCheck);
-            
-                count++;
-                orderArray = [];
-                // console.log(unitCheck)
+                    newInvent.push(inventory[productID - 1].unitsCheck)
+                };
+                
             });
-        } else {
-            console.log('Thanks for your order!')
-        }
+        };
+        
+        
+        count++;
+        orderArray = [];
     });
 };
 
