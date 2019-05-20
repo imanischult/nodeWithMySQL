@@ -86,7 +86,7 @@ function afterConnection() {
 
                     let newUnits = units - 1;
                     connection.query(
-                        "UPDATE8 products SET ? WHERE ?",
+                        "UPDATE products SET ? WHERE ?",
                         [
                             {
                                 stock_quantity: newUnits
