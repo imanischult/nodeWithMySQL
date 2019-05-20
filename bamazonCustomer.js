@@ -17,6 +17,7 @@ const connection = mysql.createConnection({
     database: "bamazon_db",
 });
 
+// Creates connection to the database and runs functions
 connection.connect(function(err){
     if (err) throw err;
     console.log("connected as ID " + connection.threadId);
@@ -78,17 +79,25 @@ function afterConnection() {
 
                 if (unitsCheck < units) {
                     console.log (`Your order cannot be completed. We only have ${unitsCheck} of the ${inventory[productID - 1].product} product left`)
-                } else if (unitsCheck > units) {
+                } else if (unitsCheck >= units) {
                     orderArray.push(inventory[productID - 1].price);
-                    newInvent.push(inventory[productID - 1].unitsCheck)
+                    unitsCheckk--;
+                    newInvent.push(unitsCheck)
+                    console.log(`Thank you for order. It is now being processed. You spent $${orderArray[0]}.`)
                 };
+
+                connection.query(
+                    "UPDATE products SET ? WHERE ?",
+
+                )
                 
             });
         };
         
-        
+
         count++;
         orderArray = [];
+        newInvent = [];
     });
 };
 
